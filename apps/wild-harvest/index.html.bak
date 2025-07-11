@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicago Wild Harvest - TENET Tech</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, sans-serif; background: #0a0a0a; color: #fff; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
+        .back-link { color: #00ffff; text-decoration: none; margin-bottom: 2rem; display: inline-block; }
+        .search-bar { background: #1a1a1a; border: 2px solid #333; border-radius: 8px; padding: 1rem; margin-bottom: 2rem; width: 100%; color: #fff; }
+        .search-bar:focus { outline: none; border-color: #00ffff; }
+        .filters { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+        .filter-button { background: #333; color: #fff; border: none; padding: 12px 16px; border-radius: 6px; cursor: pointer; transition: all 0.3s; }
+        .filter-button:hover, .filter-button.active { background: #00ffff; color: #000; }
+        .plants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+        .plant-card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; overflow: hidden; cursor: pointer; transition: all 0.3s; }
+        .plant-card:hover { transform: translateY(-5px); border-color: #00ffff; }
+        .plant-image { height: 200px; background: linear-gradient(45deg, #2a2a2a, #1a1a1a); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+        .plant-info { padding: 1.5rem; }
+        .plant-name { color: #00ffff; font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .plant-scientific { color: #999; font-style: italic; margin-bottom: 1rem; }
+        .plant-description { color: #b0b0b0; line-height: 1.6; margin-bottom: 1rem; }
+        .plant-details { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .plant-tag { background: rgba(0, 255, 255, 0.1); color: #00ffff; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.8rem; }
+        .plant-tag.season { background: rgba(255, 107, 107, 0.1); color: #ff6b6b; }
+        .plant-tag.location { background: rgba(78, 205, 196, 0.1); color: #4ecdc4; }
+        .safety-warning { background: rgba(255, 107, 107, 0.1); border: 1px solid #ff6b6b; border-radius: 6px; padding: 1rem; margin-bottom: 2rem; color: #ff6b6b; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); }
+        .modal-content { background: #1a1a1a; margin: 5% auto; padding: 2rem; border: 1px solid #333; border-radius: 8px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; }
+        .modal-close { color: #999; float: right; font-size: 2rem; cursor: pointer; }
+        .modal-close:hover { color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../#apps" class="back-link">← Back to Portfolio</a>
+        <h1 style="color: #00ffff; margin-bottom: 1rem;">Chicago Wild Harvest</h1>
+        
+        <div class="safety-warning">
+            <strong>⚠️ Safety Warning:</strong> Never eat any wild plant unless you are 100% certain of its identification. This app is for educational purposes only.
+        </div>
+        
+        <input type="text" class="search-bar" id="search-bar" placeholder="Search plants by name...">
+        
+        <div class="filters">
+            <button class="filter-button active" data-filter="all">All</button>
+            <button class="filter-button" data-filter="spring">Spring</button>
+            <button class="filter-button" data-filter="summer">Summer</button>
+            <button class="filter-button" data-filter="fall">Fall</button>
+            <button class="filter-button" data-filter="parks">Parks</button>
+            <button class="filter-button" data-filter="lakefront">Lakefront</button>
+        </div>
+        
+        <div class="plants-grid" id="plants-grid"></div>
+    </div>
+    
+    <div id="plant-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+    
+    <script>
+        const plants = [
+            {
+                id: 1,
+                name: "Dandelion",
+                scientific: "Taraxacum officinale",
+                icon: "🌼",
+                description: "Common edible weed with yellow flowers. Leaves are bitter but nutritious.",
+                seasons: ["spring", "summer", "fall"],
+                locations: ["parks", "lakefront"],
+                edibleParts: ["leaves", "flowers", "roots"],
+                safety: "Generally safe, but avoid areas treated with chemicals"
+            },
+            {
+                id: 2,
+                name: "Plantain",
+                scientific: "Plantago major",
+                icon: "🌿",
+                description: "Common 'weed' with healing properties. Leaves are edible and medicinal.",
+                seasons: ["spring", "summer", "fall"],
+                locations: ["parks", "lakefront"],
+                edibleParts: ["leaves", "seeds"],
+                safety: "Very safe, known as 'nature's band-aid'"
+            },
+            {
+                id: 3,
+                name: "Wild Onion",
+                scientific: "Allium canadense",
+                icon: "🧅",
+                description: "Native wild onion with mild flavor. Bulbs and greens are edible.",
+                seasons: ["spring", "summer"],
+                locations: ["parks"],
+                edibleParts: ["bulbs", "greens"],
+                safety: "CRITICAL: Must smell like onion/garlic. If no onion smell, do not eat!"
+            }
+        ];
+        
+        let currentFilter = 'all';
+        let searchTerm = '';
+        
+        function renderPlants() {
+            const grid = document.getElementById('plants-grid');
+            const filteredPlants = plants.filter(plant => {
+                const matchesSearch = plant.name.toLowerCase().includes(searchTerm) ||
+                                    plant.scientific.toLowerCase().includes(searchTerm);
+                const matchesFilter = currentFilter === 'all' ||
+                                    plant.seasons.includes(currentFilter) ||
+                                    plant.locations.includes(currentFilter);
+                return matchesSearch && matchesFilter;
+            });
+            
+            grid.innerHTML = '';
+            
+            filteredPlants.forEach(plant => {
+                const card = document.createElement('div');
+                card.className = 'plant-card';
+                card.innerHTML = `
+                    <div class="plant-image">${plant.icon}</div>
+                    <div class="plant-info">
+                        <h3 class="plant-name">${plant.name}</h3>
+                        <p class="plant-scientific">${plant.scientific}</p>
+                        <p class="plant-description">${plant.description}</p>
+                        <div class="plant-details">
+                            ${plant.seasons.map(season => `<span class="plant-tag season">${season}</span>`).join('')}
+                            ${plant.locations.map(location => `<span class="plant-tag location">${location}</span>`).join('')}
+                            ${plant.edibleParts.map(part => `<span class="plant-tag">${part}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => showPlantDetails(plant));
+                grid.appendChild(card);
+            });
+        }
+        
+        function showPlantDetails(plant) {
+            const modal = document.getElementById('plant-modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            modalBody.innerHTML = `
+                <div style="text-align: center; font-size: 4rem; margin-bottom: 1rem;">${plant.icon}</div>
+                <h2 style="color: #00ffff; margin-bottom: 0.5rem;">${plant.name}</h2>
+                <p style="color: #999; font-style: italic; margin-bottom: 2rem;">${plant.scientific}</p>
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: #ff6b6b; margin-bottom: 1rem;">⚠️ Safety Information</h3>
+                    <p style="color: #b0b0b0; line-height: 1.6;">${plant.safety}</p>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="color: #00ffff; margin-bottom: 1rem;">🌿 Edible Parts</h3>
+                    <p style="color: #b0b0b0; line-height: 1.6;">${plant.edibleParts.join(', ')}</p>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+        
+        // Search functionality
+        document.getElementById('search-bar').addEventListener('input', (e) => {
+            searchTerm = e.target.value.toLowerCase();
+            renderPlants();
+        });
+        
+        // Filter buttons
+        document.querySelectorAll('.filter-button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.filter-button').forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+                currentFilter = button.dataset.filter;
+                renderPlants();
+            });
+        });
+        
+        // Modal close
+        document.getElementById('modal-close').addEventListener('click', () => {
+            document.getElementById('plant-modal').style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('plant-modal')) {
+                document.getElementById('plant-modal').style.display = 'none';
+            }
+        });
+        
+        // Initialize
+        renderPlants();
+    </script>
+</body>
+</html>

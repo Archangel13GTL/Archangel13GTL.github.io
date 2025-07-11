@@ -1,0 +1,43 @@
+#!/bin/bash
+# one-click setup for new_snippets and assets_to_add directories
+
+# Create snippets directory and template files
+mkdir -p new_snippets
+cat > new_snippets/about.html << 'EOF'
+<!-- updated About section HTML here -->
+<section id="about" class="section">
+  <!-- your new about content -->
+</section>
+EOF
+
+cat > new_snippets/apps.html << 'EOF'
+<!-- updated Interactive Apps section HTML here -->
+<section id="apps" class="section">
+  <!-- your new apps content -->
+</section>
+EOF
+
+cat > new_snippets/technical_showcase.html << 'EOF'
+<!-- updated Technical Showcase section HTML here -->
+<section id="technical-showcase" class="section">
+  <!-- your new showcase content -->
+</section>
+EOF
+
+cat > new_snippets/implementation_details.html << 'EOF'
+<!-- updated How It’s Built section HTML here -->
+<section id="implementation-details" class="section">
+  <!-- your implementation details content -->
+</section>
+EOF
+
+# Create assets_to_add structure
+mkdir -p assets_to_add/codemirror/lib assets_to_add/codemirror/mode assets_to_add/codemirror/theme
+
+# Download CodeMirror core and modes (example)
+curl -L https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js -o assets_to_add/codemirror/lib/codemirror.js
+curl -L https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css -o assets_to_add/codemirror/lib/codemirror.css
+curl -L https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js -o assets_to_add/codemirror/mode/javascript.js
+curl -L https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css -o assets_to_add/codemirror/theme/dracula.css
+
+echo "Created new_snippets/ templates and downloaded CodeMirror assets into assets_to_add/"
