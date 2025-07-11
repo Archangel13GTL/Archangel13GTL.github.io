@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TENET Tech - Digital Innovation Lab</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+    <nav aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#apps">Apps</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <button id="toggle-theme" aria-label="Toggle theme">Toggle Theme</button>
+    </nav>
+    
+    <section id="home" class="hero">
+        <h1>TENET Tech</h1>
+        <p>Digital Innovation Laboratory - AI-powered solutions and interactive apps by Gabriel Tenorio.</p>
+        <p id="dynamic-tagline">Exploring <span id="typing-text" aria-live="polite"></span></p>
+    </section>
+    
+    <section id="portfolio" class="section">
+        <h2>Portfolio</h2>
+        <div class="filters" role="tablist">
+            <button class="filter active" data-filter="all" aria-selected="true">All</button>
+            <button class="filter" data-filter="ai" aria-selected="false">AI</button>
+            <button class="filter" data-filter="tools" aria-selected="false">Tools</button>
+        </div>
+        <div class="grid">
+            <div class="card" data-category="tools">Project 1: Description <a href="#">Demo</a></div>
+            <div class="card" data-category="ai">Project 2: AI Tool <a href="#">Demo</a></div>
+            <!-- Add your uploaded project content here -->
+        </div>
+    </section>
+    
+    <section id="apps" class="section">
+        <h2>Interactive Apps</h2>
+        <div class="app-grid">
+            <div class="app-card">
+                <h3>Shed Layout Designer</h3>
+                <a href="apps/shed-layout-designer/index.html">Launch</a>
+            </div>
+            <div class="app-card">
+                <h3>Todo Organizer</h3>
+                <a href="apps/todo-organizer/index.html">Launch</a>
+            </div>
+            <!-- Add links to more apps from your uploads -->
+        </div>
+    </section>
+    
+    <section id="about" class="section">
+        <h2>About</h2>
+        <p>Your bio, skills in AI, hardware, and more. Edit with details from your uploads.</p>
+    </section>
+    
+    <section id="contact" class="section">
+        <h2>Contact</h2>
+        <form action="https://formspree.io/your-email" method="POST">  <!-- Replace with real backend endpoint -->
+            <input type="text" name="name" placeholder="Name" required aria-label="Your name">
+            <input type="email" name="email" placeholder="Email" required aria-label="Your email">
+            <textarea name="message" placeholder="Message" required aria-label="Your message"></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <script>
+        // Dynamic typing effect for the tagline (improved with error handling)
+        document.addEventListener("DOMContentLoaded", () => {
+            const typingText = document.getElementById("typing-text");
+            if (!typingText) return;  // Prevent errors if element is missing
+
+            const phrases = ["AI integration", "hardware prototyping", "software development", "innovative solutions"];
+            let currentPhraseIndex = 0;
+            let currentCharIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                typingText.textContent = phrases[currentPhraseIndex].substring(0, currentCharIndex);
+                if (!isDeleting && currentCharIndex++ === phrases[currentPhraseIndex].length) {
+                    isDeleting = true;
+                    setTimeout(type, 2000);
+                } else if (isDeleting && currentCharIndex-- === 0) {
+                    isDeleting = false;
+                    currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+                    setTimeout(type, 500);
+                } else {
+                    setTimeout(type, isDeleting ? 100 : 100);
+                }
+            }
+
+            type();
+        });
+    </script>
+</body>
+</html>
