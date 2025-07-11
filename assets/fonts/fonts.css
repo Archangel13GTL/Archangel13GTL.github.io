@@ -6,7 +6,6 @@
     font-style: normal;
     font-display: swap;
 }
-
 @font-face {
     font-family: 'MonaSans';
     src: url('MonaSans-Variable.woff2') format('woff2-variations');
@@ -15,11 +14,9 @@
     font-style: normal;
     font-display: swap;
 }
-
 :root {
     --font-body: "InterVariable", system-ui, -apple-system, sans-serif;
     --font-display: "MonaSans", "InterVariable", system-ui, sans-serif;
 }
-
 .font-inter { font-family: var(--font-body); }
 .font-mona { font-family: var(--font-display); }
