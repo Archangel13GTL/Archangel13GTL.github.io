@@ -216,7 +216,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
   if (document.getElementById('map')) {
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap`;
+    // TODO: Replace 'YOUR_API_KEY' with your actual Google Maps API key before deploying to production.
+        script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap`;
     script.async = true;
     document.head.appendChild(script);
   }
@@ -253,11 +254,9 @@ window.addEventListener('DOMContentLoaded', () => {
         },
         options: {
           scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero:true
-              }
-            }]
+            y: {
+              beginAtZero: true
+            }
           }
         }
       });
@@ -280,13 +279,25 @@ window.addEventListener('DOMContentLoaded', () => {
   if (typeof Prism !== 'undefined') {
     document.querySelectorAll('pre code').forEach(block => {
       Prism.highlightElement(block);
-      block.addEventListener('click', () => {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNodeContents(block);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        document.execCommand('copy');
+        const codeText = block.textContent;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(codeText)
+            .then(() => {
+              alert('Code copied to clipboard!');
+            })
+            .catch(err => {
+              alert('Failed to copy code: ' + err);
+            });
+        } else {
+          // Fallback for older browsers
+          const selection = window.getSelection();
+          const range = document.createRange();
+          range.selectNodeContents(block);
+          selection.removeAllRanges();
+          selection.addRange(range);
+          document.execCommand('copy');
+          alert('Code copied to clipboard!');
+        }
         alert('Code copied to clipboard!');
       });
     });
@@ -416,6 +427,17 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+// Add this to the end of script.js, inside the DOMContentLoaded listener
+
+// Register Service Worker for PWA features
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(registration => {
+      console.log('Service Worker registered with scope:', registration.scope);
+    })
+    .catch(error => {
+      console.error('Service Worker registration failed:', error);
+    });
 /*
 End of script.js
 This script file contains various functionalities for the portfolio website, including theme toggling, dynamic typing, portfolio filtering, form submission handling, smooth scrolling, and integration with various libraries for enhanced user experience. Make sure to replace placeholders like 'YOUR_API_KEY' with actual values where necessary, and ensure that the required libraries are included in your HTML file.

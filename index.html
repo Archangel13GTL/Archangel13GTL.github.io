@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TENET Tech - Digital Innovation Lab</title>
+    <meta name="description" content="TENET X Pro - Digital innovation lab blending AI with practical solutions by Gabriel Tenorio">
+    <title>TENET X Pro - Digital Innovation Project</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="manifest" href="manifest.json">
     <script defer src="assets/js/script.js"></script>
@@ -19,8 +20,8 @@
     </nav>
     
     <section id="home" class="hero">
-        <h1>TENET Tech</h1>
-        <p>Digital Innovation Laboratory - AI-powered solutions and interactive apps by Gabriel Tenorio.</p>
+        <h1>TENET X Pro</h1>
+        <p>TENET X Pro: Digital innovation lab blending AI with practical solutions. Transform ideas into interactive apps and on-demand tools using cutting-edge tech. Browse portfolio for AI-powered projects that inspire and deliver results. Built by Gabriel Tenorio.</p>
         <p id="dynamic-tagline">Exploring <span id="typing-text" aria-live="polite"></span></p>
     </section>
     
@@ -32,9 +33,13 @@
             <button class="filter" data-filter="tools" aria-selected="false">Tools</button>
         </div>
         <div class="grid">
-            <div class="card" data-category="tools">Project 1: Description <a href="#">Demo</a></div>
-            <div class="card" data-category="ai">Project 2: AI Tool <a href="#">Demo</a></div>
-            <!-- Add your uploaded project content here -->
+            <div class="card" data-category="tools">
+                <strong>Project 1: Description</strong> Demo
+            </div>
+            <div class="card" data-category="ai">
+                <strong>Project 2: AI Tool</strong> Demo
+            </div>
+            <!-- Add more real project cards here -->
         </div>
     </section>
     
@@ -46,21 +51,21 @@
                 <a href="apps/shed-layout-designer/index.html">Launch</a>
             </div>
             <div class="app-card">
-                <h3>Todo Organizer</h3>
+                <h3>Todo Organizer</3>
                 <a href="apps/todo-organizer/index.html">Launch</a>
             </div>
-            <!-- Add links to more apps from your uploads -->
+            <!-- Add more app cards here -->
         </div>
     </section>
     
     <section id="about" class="section">
-        <h2>About</h2>
-        <p>Your bio, skills in AI, hardware, and more. Edit with details from your uploads.</p>
+        <h2>About Me</h2>
+        <p>Beyond software, I bring hands-on experience in electronics, hardware prototyping, and even construction management. This diverse background means I understand how digital solutions need to work in the real world—whether that's integrating with physical systems or designing interfaces that make sense to non-technical users. As Gabriel Tenorio, I'm passionate about turning innovative ideas into functional technology that delivers real impact.</p>
     </section>
     
     <section id="contact" class="section">
         <h2>Contact</h2>
-        <form action="https://formspree.io/your-email" method="POST">  <!-- Replace with real backend endpoint -->
+        <form action="https://formspree.io/f/your-real-form-id" method="POST" id="contact-form">  <!-- TODO: Replace 'your-real-form-id' with your actual Formspree form ID -->
             <input type="text" name="name" placeholder="Name" required aria-label="Your name">
             <input type="email" name="email" placeholder="Email" required aria-label="Your email">
             <textarea name="message" placeholder="Message" required aria-label="Your message"></textarea>
@@ -68,9 +73,25 @@
         </form>
     </section>
 
+    <footer>
+        <p>&copy; <span id="year"></span> TENET X Pro. All rights reserved.</p>
+    </footer>
+
     <script>
-        // Dynamic typing effect for the tagline (improved with error handling)
+        // Set current year in footer
         document.addEventListener("DOMContentLoaded", () => {
+            const yearSpan = document.getElementById("year");
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+
+            // Register service worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('Service Worker registered:', registration.scope))
+                    .catch(error => console.error('Service Worker error:', error));
+            }
+
             const typingText = document.getElementById("typing-text");
             if (!typingText) return;  // Prevent errors if element is missing
 
@@ -89,11 +110,27 @@
                     currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
                     setTimeout(type, 500);
                 } else {
-                    setTimeout(type, isDeleting ? 100 : 100);
+                    setTimeout(type, isDeleting ? 50 : 100);
                 }
             }
 
             type();
+
+            // Enhanced form handling with success message
+            const form = document.getElementById("contact-form");
+            if (form) {
+                form.addEventListener("submit", (e) => {
+                    if (!form.checkValidity()) {
+                        e.preventDefault();
+                        alert("Please fill out all fields correctly.");
+                    } else {
+                        // Optional: Add a success message after submission
+                        form.addEventListener("formdata", () => {
+                            alert("Message sent successfully!");
+                        });
+                    }
+                });
+            }
         });
     </script>
 </body>

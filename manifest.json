@@ -1,34 +1,56 @@
 {
     "name": "TENET Tech - Digital Innovation Lab",
     "short_name": "TENET Tech",
-    "description": "AI-powered solutions and interactive apps by Gabriel Tenorio",
+    "id": "/?homescreen=1",
+    "description": "Explore AI-powered solutions, interactive apps, and custom tools by Gabriel Tenorio for innovative digital experiences.",
     "start_url": "/",
+    "scope": "/",
     "display": "standalone",
     "background_color": "#0d0d0d",
     "theme_color": "#00ff41",
     "orientation": "portrait-primary",
+    "lang": "en-US",
+    "dir": "ltr",
+    "display_override": ["standalone", "fullscreen"],
     "icons": [
         {
             "src": "icon-192.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         },
         {
             "src": "icon-512.png",
             "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "icon-144.png",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "screenshot-1.png",
+            "sizes": "1280x720",
             "type": "image/png"
         }
     ],
-    "version": "1.0.0",
-    "author": "Gabriel Tenorio",
-    "license": "MIT",
-    "homepage": "https://tenettech.com",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Archangel13GTL/Archangel13GTL.github.io"
-    },
-    "bugs": {
-        "url": "https://github.com/Archangel13GTL/Archangel13GTL.github.io/issues"
-    }
+    "prefer_related_applications": false,
+    "related_applications": [
+        {
+            "platform": "play",
+            "url": "https://play.google.com/store/apps/details?id=your.app.id"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Launch Apps",
+            "url": "/#apps",
+            "description": "Quick access to interactive apps"
+        }
+    ]
 }
-
