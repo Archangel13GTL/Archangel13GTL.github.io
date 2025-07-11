@@ -1,56 +1,32 @@
 {
-    "name": "TENET Tech - Digital Innovation Lab",
-    "short_name": "TENET Tech",
-    "id": "/?homescreen=1",
-    "description": "Explore AI-powered solutions, interactive apps, and custom tools by Gabriel Tenorio for innovative digital experiences.",
-    "start_url": "/",
-    "scope": "/",
-    "display": "standalone",
-    "background_color": "#0d0d0d",
-    "theme_color": "#00ff41",
-    "orientation": "portrait-primary",
-    "lang": "en-US",
-    "dir": "ltr",
-    "display_override": ["standalone", "fullscreen"],
-    "icons": [
-        {
-            "src": "icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "icon-144.png",
-            "sizes": "144x144",
-            "type": "image/png",
-            "purpose": "any maskable"
-        }
-    ],
-    "screenshots": [
-        {
-            "src": "screenshot-1.png",
-            "sizes": "1280x720",
-            "type": "image/png"
-        }
-    ],
-    "prefer_related_applications": false,
-    "related_applications": [
-        {
-            "platform": "play",
-            "url": "https://play.google.com/store/apps/details?id=your.app.id"
-        }
-    ],
-    "shortcuts": [
-        {
-            "name": "Launch Apps",
-            "url": "/#apps",
-            "description": "Quick access to interactive apps"
-        }
-    ]
+  "name": "TENET Tech - Web Development Portfolio",
+  "short_name": "TENET Tech",
+  "description": "Portfolio showcasing innovative web development and design solutions",
+  "theme_color": "#1a1a1a",
+  "background_color": "#0a0a0a",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "start_url": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": [
+    "portfolio",
+    "technology",
+    "development"
+  ],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
 }
