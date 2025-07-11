@@ -1,4 +1,4 @@
-// TENET Tech Site - Main JavaScript
+// TeNeT X Site - Main JavaScript
 // Performance optimizations
 document.addEventListener('DOMContentLoaded', () => {
     // Lazy loading for images
