@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="TeNeT X: Digital innovation lab blending AI with practical solutions. Transform ideas into interactive apps and on-demand tools using cutting-edge tech. Browse portfolio for AI-powered projects that inspire and deliver results. Built by Gabriel Tenorio." name="description"/>
+<meta content="#1a1a1a" name="theme-color"/>
+<title>TeNeT X: Digital Innovation Lab</title>
+<link as="font" crossorigin="" href="/assets/fonts/InterVariable.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/assets/fonts/MonaSans-Variable.woff2" rel="preload" type="font/woff2"/>
+<link href="/assets/css/main.css" rel="stylesheet"/>
+<link href="/assets/codemirror/lib/codemirror.css" rel="stylesheet"/>
+<link href="/assets/codemirror/theme/dracula.css" rel="stylesheet"/>
+<link href="/manifest.json" rel="manifest"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="TeNeT X" name="apple-mobile-web-app-title"/>
+<script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Person","name":"Gabriel Tenorio","jobTitle":"Web Developer","url":"https://archangel13gtl.github.io","sameAs":["https://github.com/Archangel13GTL"]}
+  </script>
+</head>
+<html><body><section class="hero" id="home">
+<div class="container hero-content loading">
+<h1 class="hero-title"><span class="typewriter" data-text="Crafting Digital Excellence">Crafting Digital Excellence</span></h1>
+<p class="hero-subtitle">TeNeT X: Digital innovation lab blending AI with practical solutions. Transform ideas into interactive apps and on-demand tools using cutting-edge tech. Browse portfolio for AI-powered projects that inspire and deliver results. Built by Gabriel Tenorio.</p>
+<a class="cta-button" href="#apps">Explore Apps</a>
+</div>
+</section>
+<section class="section" id="apps">
+<div class="container">
+<h2 class="section-title">Interactive Apps</h2>
+<div class="apps-grid">
+<div class="app-card">
+<div class="app-icon">🏠</div>
+<h3>Shed Layout Designer</h3>
+<p>Design and organize shed layouts with drag-and-drop.</p>
+<a class="app-link" href="/apps/shed-organizer/">Launch App</a>
+</div>
+<div class="app-card">
+<div class="app-icon">🌿</div>
+<h3>Chicago Wild Harvest</h3>
+<p>Foraging guide with interactive maps and identification.</p>
+<a class="app-link" href="/apps/wild-harvest/">Launch App</a>
+</div>
+</div>
+</div>
+</section>
+<section class="section" id="about">
+<div class="container">
+<h2 class="section-title">About Me</h2>
+<p>I'm Gabriel Tenorio, a self-taught tech innovator specializing in AI integration and intelligent automation solutions. I focus on leveraging artificial intelligence to solve real-world problems, transforming traditional workflows into smart, efficient systems. While others theorize about AI's potential, I'm building intelligent solutions that workcombining cutting-edge technology with real-world engineering to create systems that actually deliver.</p>
+<p>Beyond software, I bring extensive hands-on expertise across multiple domains: from troubleshooting small 2- and 4-stroke engines to electrical systems and plumbing, from circuit design and microelectronics to precision soldering and microcontroller programming. My technical foundation spans construction and drywall work, fine woodworking and custom furniture design, plus comprehensive computer rebuilds covering hardware, software, operating systems, and cybersecurity. This diverse engineering background allows me to approach AI projects with a deep understanding of how digital intelligence integrates with physical systems.</p>
+<p>As a successful nature photographer, I combine artistic vision with technical precision, capturing the wild's beauty through both lens and code. My professional journey includes leading sales teams at Kay Jewelers (managing $1.5M annual revenue, hiring and training staff), and founding VividSight as an entrepreneur, handling everything from budgets to marketing. This results-driven background in management, team leadership, and customer relations perfectly complements my technical AI pursuits, enabling me to deliver intelligent solutions that create lasting value and transform how businesses operate.</p>
+</div>
+</section>
+<section class="section" id="projects">
+<div class="container">
+<h2 class="section-title">Featured Projects</h2>
+<div class="projects-grid">
+<div class="project-card">
+<div class="project-image"><div class="project-placeholder">📱</div></div>
+<div class="project-content">
+<h3>E-Commerce PWA</h3>
+<p>Full-stack progressive web app with offline functionality, push notifications, and seamless mobile experience.</p>
+<div class="project-tech"><span>React</span><span>Node.js</span><span>PWA</span></div>
+</div>
+</div>
+<div class="project-card">
+<div class="project-image"><div class="project-placeholder">🎨</div></div>
+<div class="project-content">
+<h3>Design System</h3>
+<p>Comprehensive design system with reusable components, built with modern CSS and accessibility in mind.</p>
+<div class="project-tech"><span>CSS</span><span>Storybook</span><span>Figma</span></div>
+</div>
+</div>
+<div class="project-card">
+<div class="project-image"><div class="project-placeholder">⚡</div></div>
+<div class="project-content">
+<h3>Performance Dashboard</h3>
+<p>Real-time analytics dashboard with advanced data visualization and mobile-optimized interface.</p>
+<div class="project-tech"><span>Vue.js</span><span>D3.js</span><span>WebSocket</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section" id="technical-showcase">
+<div class="container">
+<h2 class="section-title">Technical Showcase</h2>
+<p class="section-subtitle">Modern web practices &amp; PWA ingenuity</p>
+<div class="showcase-grid">
+<div class="showcase-item">
+<div class="showcase-icon">🔄</div>
+<h3>Auto-Update Feature</h3>
+<ul class="showcase-list">
+<li>Service worker detects updates</li>
+<li>Non-intrusive banner prompts refresh</li>
+<li>Seamless PWA version control</li>
+</ul>
+<pre><code class="language-js">// Listen for SW SKIP_WAITING
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', e =&gt; {
+    if (e.data.type==='SKIP_WAITING') {
+      const b=document.createElement('div');
+      b.style=`position:fixed;top:0;left:0;right:0;background:#4ecdc4;color:#000;padding:10px;text-align:center;z-index:10000`;
+      b.innerHTML='<span>New version!</span><button onclick="location.reload()">Update</button>';
+      document.body.append(b);
+    }
+  });
+}</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section class="section" id="implementation-details">
+<div class="container">
+<h2 class="section-title">How It’s Built</h2>
+<p class="section-subtitle">Key code powering TeNeT X</p>
+<div class="implementation-grid">
+<div class="implementation-item">
+<h3>Font Optimization</h3>
+<pre><code class="language-css">@font-face{font-family:'InterVariable';src:url('/assets/fonts/InterVariable.woff2') format('woff2-variations');font-weight:100 900;font-display:swap;}</code></pre>
+</div>
+<div class="implementation-item">
+<h3>Mobile Nav</h3>
+<pre><code class="language-js">navToggle.addEventListener('click',()=&gt;{navMenu.classList.toggle('active');navToggle.ariaExpanded=navMenu.classList.contains('active');});</code></pre>
+</div>
+<div class="implementation-item">
+<h3>SW Caching</h3>
+<pre><code class="language-js">workbox.routing.registerRoute(({request})=&gt;request.destination==='script',new workbox.strategies.StaleWhileRevalidate());</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section class="section" id="contact">
+<div class="container">
+<h2 class="section-title">Get In Touch</h2>
+<p>Ready to collaborate? Let’s make it happen.</p>
+<a class="cta-button" href="mailto:TeNeT.GT@Gmail.com">TeNeT.GT@Gmail.com</a>
+</div>
+</section></body></html></html>
