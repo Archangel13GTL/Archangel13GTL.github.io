@@ -13,24 +13,79 @@ window.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('light-mode');
   }
 
-  // Dynamic Typing (AI-like Personalization)
+  // Improved Dynamic Typing Effect with Blinking Cursor
+  class TypeWriter {
+    constructor(element, phrases, options = {}) {
+      this.element = element;
+      this.phrases = phrases;
+      this.txt = '';
+      this.phraseIndex = 0;
+      this.charIndex = 0;
+      this.isDeleting = false;
+      this.typingSpeed = options.typingSpeed || 120;
+      this.deletingSpeed = options.deletingSpeed || 60;
+      this.pauseAfterTyping = options.pauseAfterTyping || 1500;
+      this.pauseAfterDeleting = options.pauseAfterDeleting || 500;
+      this.cursorChar = options.cursorChar || '|';
+      this.cursorBlinkSpeed = options.cursorBlinkSpeed || 500;
+      this.cursorVisible = true;
+      this.init();
+    }
+
+    init() {
+      this.element.innerHTML = '';
+      this.type();
+      this.blinkCursor();
+    }
+
+    type() {
+      const currentPhrase = this.phrases[this.phraseIndex];
+      if (this.isDeleting) {
+        this.charIndex--;
+        this.txt = currentPhrase.substring(0, this.charIndex);
+      } else {
+        this.charIndex++;
+        this.txt = currentPhrase.substring(0, this.charIndex);
+      }
+
+      this.element.innerHTML = `<span class="typed-text">${this.txt}</span><span class="cursor">${this.cursorVisible ? this.cursorChar : ' '}</span>`;
+
+      let timeout = this.isDeleting ? this.deletingSpeed : this.typingSpeed;
+
+      if (!this.isDeleting && this.charIndex === currentPhrase.length) {
+        timeout = this.pauseAfterTyping;
+        this.isDeleting = true;
+      } else if (this.isDeleting && this.charIndex === 0) {
+        this.isDeleting = false;
+        this.phraseIndex = (this.phraseIndex + 1) % this.phrases.length;
+        timeout = this.pauseAfterDeleting;
+      }
+
+      setTimeout(() => this.type(), timeout);
+    }
+
+    blinkCursor() {
+      setInterval(() => {
+        this.cursorVisible = !this.cursorVisible;
+        const cursorSpan = this.element.querySelector('.cursor');
+        if (cursorSpan) {
+          cursorSpan.style.visibility = this.cursorVisible ? 'visible' : 'hidden';
+        }
+      }, this.cursorBlinkSpeed);
+    }
+  }
+
   const typingText = document.getElementById('typing-text');
   if (typingText) {
     const phrases = ['AI Solutions', 'Interactive Apps', 'Custom Tools'];
-    let index = 0, char = 0, isDeleting = false;
-    function type() {
-      typingText.textContent = phrases[index].substring(0, char);
-      if (!isDeleting && char++ === phrases[index].length) {
-        isDeleting = true;
-        setTimeout(type, 1200);
-        return;
-      } else if (isDeleting && char-- === 0) {
-        isDeleting = false;
-        index = (index + 1) % phrases.length;
-      }
-      setTimeout(type, isDeleting ? 50 : 150);
-    }
-    type();
+    new TypeWriter(typingText, phrases, {
+      typingSpeed: 100,
+      deletingSpeed: 50,
+      pauseAfterTyping: 1800,
+      pauseAfterDeleting: 700,
+      cursorChar: '|',
+      cursorBlinkSpeed: 600
+    });
   }
 
   // Portfolio Filters
@@ -217,228 +272,19 @@ window.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('map')) {
     const script = document.createElement('script');
     // TODO: Replace 'YOUR_API_KEY' with your actual Google Maps API key before deploying to production.
-        script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap`;
     script.async = true;
     document.head.appendChild(script);
   }
 
-  // Initialize Chart.js for Data Visualization if available
-  if (typeof Chart !== 'undefined') {
-    const ctx = document.getElementById('myChart');
-    if (ctx) {
-      const myChart = new Chart(ctx.getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-          datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-              'rgba(255,99,132,1)',
-              'rgba(54,162,235,1)',
-              'rgba(255,206,86,1)',
-              'rgba(75,192,192,1)',
-              'rgba(153,102,255,1)',
-              'rgba(255,159,64,1)'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
+  // Register Service Worker for PWA features
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('Service Worker registered with scope:', registration.scope);
+      })
+      .catch(error => {
+        console.error('Service Worker registration failed:', error);
       });
-    }
-  }
-
-  // Initialize Clipboard.js for Copy to Clipboard Functionality if available
-  if (typeof ClipboardJS !== 'undefined') {
-    const clipboard = new ClipboardJS('.copy-btn');
-    clipboard.on('success', e => {
-      alert('Copied to clipboard: ' + e.text);
-      e.clearSelection();
-    });
-    clipboard.on('error', e => {
-      alert('Failed to copy text. Please try manually.');
-    });
-  }
-
-  // Initialize Prism.js for Code Highlighting if available
-  if (typeof Prism !== 'undefined') {
-    document.querySelectorAll('pre code').forEach(block => {
-      Prism.highlightElement(block);
-        const codeText = block.textContent;
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(codeText)
-            .then(() => {
-              alert('Code copied to clipboard!');
-            })
-            .catch(err => {
-              alert('Failed to copy code: ' + err);
-            });
-        } else {
-          // Fallback for older browsers
-          const selection = window.getSelection();
-          const range = document.createRange();
-          range.selectNodeContents(block);
-          selection.removeAllRanges();
-          selection.addRange(range);
-          document.execCommand('copy');
-          alert('Code copied to clipboard!');
-        }
-        alert('Code copied to clipboard!');
-      });
-    });
-  }
-
-  // Initialize Isotope for Portfolio Layout if available
-  if (typeof Isotope !== 'undefined') {
-    const iso = new Isotope('.portfolio-grid', {
-      itemSelector: '.grid-item',
-      layoutMode: 'fitRows'
-    });
-    // Filter items on button click
-    document.querySelectorAll('.portfolio-filter button').forEach(button => {
-      button.addEventListener('click', () => {
-        const filterValue = button.getAttribute('data-filter');
-        iso.arrange({ filter: filterValue });
-        const activeBtn = document.querySelector('.portfolio-filter .active');
-        if (activeBtn) activeBtn.classList.remove('active');
-        button.classList.add('active');
-      });
-    });
-  }
-
-  // Initialize Magnific Popup for Image Gallery if available
-  if (typeof $ !== 'undefined' && typeof $.fn.magnificPopup !== 'undefined') {
-    $('.image-gallery').magnificPopup({
-      delegate: 'a',
-      type: 'image',
-      gallery: { enabled: true },
-      zoom: { enabled: true, duration: 300 }
-    });
-  }
-
-  // Initialize Select2 for Dropdowns if available
-  if (typeof $ !== 'undefined' && typeof $.fn.select2 !== 'undefined') {
-    $('.select2').select2({ placeholder: 'Select an option', allowClear: true });
-  }
-
-  // Initialize Datepicker for Forms if available
-  if (typeof $ !== 'undefined' && typeof $.fn.datepicker !== 'undefined') {
-    $('.datepicker').datepicker({ format: 'mm/dd/yyyy', autoclose: true });
-  }
-
-  // Initialize Timepicker for Forms if available
-  if (typeof $ !== 'undefined' && typeof $.fn.timepicker !== 'undefined') {
-    $('.timepicker').timepicker({
-      timeFormat: 'h:mm p',
-      interval: 30,
-      minTime: '0',
-      maxTime: '11:59pm',
-      dynamic: false,
-      dropdown: true,
-      scrollbar: true
-    });
-  }
-
-  // Initialize Tags Input for Forms if available
-  if (typeof $ !== 'undefined' && typeof $.fn.tagsInput !== 'undefined') {
-    $('.tags-input').tagsInput({
-      width: '100%',
-      height: '36px',
-      defaultText: 'Add a tag',
-      removeWithBackspace: true,
-      placeholderColor: '#999',
-      onAddTag: tag => console.log('Tag added:', tag),
-      onRemoveTag: tag => console.log('Tag removed:', tag)
-    });
-  }
-
-  // Initialize Dropzone.js for File Upload if available
-  if (typeof Dropzone !== 'undefined') {
-    Dropzone.options.fileUpload = {
-      url: '/upload',
-      maxFilesize: 2,
-      acceptedFiles: 'image/*',
-      addRemoveLinks: true,
-      dictDefaultMessage: 'Drop files here or click to upload',
-      init: function() {
-        this.on('success', file => console.log('File uploaded successfully:', file));
-        this.on('error', (file, errorMessage) => console.error('File upload error:', errorMessage));
-      }
-    };
-  }
-
-  // Initialize NProgress for Progress Bar if available
-  if (typeof NProgress !== 'undefined') {
-    NProgress.configure({ showSpinner: false });
-    window.addEventListener('load', () => NProgress.done());
-    document.addEventListener('ajaxStart', () => NProgress.start());
-    document.addEventListener('ajaxStop', () => NProgress.done());
-  }
-
-  // Initialize Toastr for Notifications if available
-  if (typeof toastr !== 'undefined') {
-    toastr.options = {
-      closeButton: true,
-      debug: false,
-      progressBar: true,
-      positionClass: 'toast-top-right',
-      showDuration: '300',
-      hideDuration: '1000',
-      timeOut: '5000',
-      extendedTimeOut: '1000',
-      showEasing: 'swing',
-      hideEasing: 'linear',
-      showMethod: 'fadeIn',
-      hideMethod: 'fadeOut'
-    };
-    function showNotification(message, type = 'info') {
-      toastr[type](message);
-    }
-    // Example usage
-    const notifyBtn = document.getElementById('notify-btn');
-    if (notifyBtn) {
-      notifyBtn.addEventListener('click', () => showNotification('This is a notification!', 'success'));
-    }
-  }
-
-  // Initialize SweetAlert2 for Alerts if available
-  if (typeof Swal !== 'undefined') {
-    function showAlert(title, text, icon = 'info') {
-      Swal.fire({ title, text, icon, confirmButtonText: 'OK' });
-    }
-    const alertBtn = document.getElementById('alert-btn');
-    if (alertBtn) {
-      alertBtn.addEventListener('click', () => showAlert('Alert Title', 'This is an alert message!', 'warning'));
-    }
   }
 });
-// Add this to the end of script.js, inside the DOMContentLoaded listener
-
-// Register Service Worker for PWA features
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-    .then(registration => {
-      console.log('Service Worker registered with scope:', registration.scope);
-    })
-    .catch(error => {
-      console.error('Service Worker registration failed:', error);
-    });
-/*
-End of script.js
-This script file contains various functionalities for the portfolio website, including theme toggling, dynamic typing, portfolio filtering, form submission handling, smooth scrolling, and integration with various libraries for enhanced user experience. Make sure to replace placeholders like 'YOUR_API_KEY' with actual values where necessary, and ensure that the required libraries are included in your HTML file.
-*/
