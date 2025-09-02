@@ -43,5 +43,9 @@ const res = await fetch('/api/ai', {
     messages: [{ role: 'user', content: 'Hello' }]
   })
 });
+if (!res.ok) {
+  const errorText = await res.text();
+  throw new Error(`API request failed with status ${res.status}: ${errorText}`);
+}
 const data = await res.json();
 ```
