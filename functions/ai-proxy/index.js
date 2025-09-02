@@ -1,3 +1,10 @@
+// Ensure a modern Node.js runtime with built-in `fetch` support.
+const [major] = process.versions.node.split('.').map(Number);
+if (major < 18) {
+  console.error(`Node.js 18 or higher is required. Detected ${process.versions.node}.`);
+  process.exit(1);
+}
+
 const express = require('express');
 const { Readable } = require('stream');
 
