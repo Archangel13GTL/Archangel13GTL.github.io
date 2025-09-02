@@ -36,7 +36,7 @@ async function main() {
   await browser.close();
 
   try {
-    execSync(`ffmpeg -y -i ${outMp4} ${outGif}`, { stdio: 'inherit' });
+    execFileSync('ffmpeg', ['-y', '-i', outMp4, outGif], { stdio: 'inherit' });
   } catch (err) {
     console.error('ffmpeg conversion failed:', err.message);
   }
