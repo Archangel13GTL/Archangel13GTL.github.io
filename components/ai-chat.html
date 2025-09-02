@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chat</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+    }
+    header {
+      padding: 0.5rem 1rem;
+      background: #1a1a1a;
+      font-size: 0.9rem;
+      color: #b0b0b0;
+    }
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .user { align-self: flex-end; background:#00ffff; color:#000; padding:0.5rem 0.75rem; border-radius:0.5rem; }
+    .assistant { align-self: flex-start; background:#1a1a1a; padding:0.5rem 0.75rem; border-radius:0.5rem; }
+    form {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: #1a1a1a;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 0.5rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      background: #00ffff;
+      color: #000;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Provider: <span id="provider">loading...</span>
+  </header>
+  <div id="messages"></div>
+  <form id="chat-form">
+    <input id="message" type="text" placeholder="Type a message" required />
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    async function updateProvider() {
+      try {
+        const res = await fetch('/api/ai/status');
+        const data = await res.json();
+        document.getElementById('provider').textContent = data.provider || 'unavailable';
+      } catch (err) {
+        document.getElementById('provider').textContent = 'unavailable';
+      }
+    }
+    updateProvider();
+
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('message');
+    const messages = document.getElementById('messages');
+
+    function addMessage(role, text) {
+      const div = document.createElement('div');
+      div.className = role;
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+      return div;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage('user', text);
+      input.value = '';
+      const responseDiv = addMessage('assistant', '');
+
+      const response = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        responseDiv.textContent += decoder.decode(value, { stream: true });
+        messages.scrollTop = messages.scrollHeight;
+      }
+    });
+  </script>
+</body>
+</html>
