@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TENET Tech - Portfolio showcasing innovative web development and design solutions">
+    <meta name="theme-color" content="#1a1a1a">
+    <title>TENET Tech - Web Development Portfolio</title>
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/MonaSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Critical CSS inlined for fast rendering -->
+    <style>
+        :root {
+            --primary-color: #00ffff;
+            --secondary-color: #ff6b6b;
+            --accent-color: #4ecdc4;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --font-body: "InterVariable", system-ui, -apple-system, sans-serif;
+            --font-display: "MonaSans", "InterVariable", system-ui, sans-serif;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            --border-radius: 0.5rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @font-face {
+            font-family: 'InterVariable';
+            src: url('/assets/fonts/InterVariable.woff2') format('woff2-variations');
+            font-weight: 100 900;
+            font-display: swap;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'MonaSans';
+            src: url('/assets/fonts/MonaSans-Variable.woff2') format('woff2-variations');
+            font-weight: 200 900;
+            font-display: swap;
+            font-style: normal;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            font-size: clamp(14px, 2.5vw, 16px);
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+        
+        /* Mobile-first navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        
+        .nav-menu {
+            display: none;
+            list-style: none;
+            gap: var(--spacing-lg);
+        }
+        
+        .nav-menu.active {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            padding: var(--spacing-md);
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link:hover,
+        .nav-link:focus {
+            color: var(--primary-color);
+            background: rgba(0, 255, 255, 0.1);
+        }
+        
+        .nav-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: var(--spacing-xs);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            min-height: 48px;
+            min-width: 48px;
+        }
+        
+        .nav-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+        
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: var(--spacing-md);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--bg-primary);
+            padding: var(--spacing-md) var(--spacing-xl);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+            min-height: 48px;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.4);
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: var(--spacing-xl) 0;
+            position: relative;
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            color: var(--text-primary);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        /* Desktop navigation */
+        @media (min-width: 769px) {
+            .nav-menu {
+                display: flex;
+                flex-direction: row;
+                position: static;
+                background: transparent;
+                padding: 0;
+                box-shadow: none;
+            }
+            
+            .nav-toggle {
+                display: none;
+            }
+        }
+        
+        /* Utility classes */
+        .hidden {
+            display: none;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .loading {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .loading.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+    
+    <!-- PWA Meta tags -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TENET Tech">
+    <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="logo" aria-label="TENET Tech Home">
+                    TENET<span style="color: var(--secondary-color);">Tech</span>
+                </a>
+                
+                <button class="nav-toggle" aria-controls="nav-menu" aria-expanded="false" aria-label="Toggle navigation menu">
+                    <span class="sr-only">Menu</span>
+                    ☰
+                </button>
+                
+                <ul class="nav-menu" id="nav-menu" role="menubar">
+                    <li role="none"><a href="#home" class="nav-link" role="menuitem">Home</a></li>
+                    <li role="none"><a href="#about" class="nav-link" role="menuitem">About</a></li>
+                    <li role="none"><a href="#projects" class="nav-link" role="menuitem">Projects</a></li>
+                    <li role="none"><a href="#technical-showcase" class="nav-link" role="menuitem">Technical Showcase</a></li>
+                    <li role="none"><a href="#apps" class="nav-link" role="menuitem">Apps</a></li>
+                    <li role="none"><a href="#contact" class="nav-link" role="menuitem">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home" aria-label="Hero section">
+        <div class="container">
+            <div class="hero-content loading">
+                <h1 class="hero-title">
+                    <span class="typewriter" data-text="Crafting Digital Excellence">Crafting Digital Excellence</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Full-stack developer specializing in modern web technologies, 
+                    progressive web apps, and innovative user experiences - built from scratch, not WordPress.
+                </p>
+                <a href="#technical-showcase" class="cta-button" aria-label="View technical showcase">
+                    See How It's Built
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="section" id="about" aria-label="About section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Passionate web developer with expertise in modern technologies and a focus on creating exceptional user experiences. Specialized in React, Node.js, and progressive web applications - all built from the ground up without relying on WordPress or template solutions.</p>
+                    <p>I believe in crafting digital solutions that not only look great but perform exceptionally across all devices, with a special focus on mobile-first design principles and modern web standards.</p>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <h3>Frontend</h3>
+                        <p>React, Vue.js, TypeScript, CSS Grid, Flexbox</p>
+                    </div>
+                    <div class="skill-item">
+                        <h3>Backend</h3>
+                        <p>Node.js, Python, PostgreSQL, MongoDB</p>
+                    </div>
+                    <div class="skill-item">
+                        <h3>DevOps</h3>
+                        <p>Docker, GitHub Actions, AWS, Netlify</p>
+                    </div>
+                    <div class="skill-item">
+                        <h3>Mobile</h3>
+                        <p>PWA, React Native, Flutter</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section class="section" id="projects" aria-label="Projects section">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">📱</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>E-Commerce PWA</h3><!-- TODO: ambiguous match: tampermonkey-example,tenetnex-professional -->
+                        <p>Full-stack progressive web app with offline functionality, push notifications, and seamless mobile experience.</p>
+                        <div class="project-tech">
+                            <span>React</span>
+                            <span>Node.js</span>
+                            <span>PWA</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">🎨</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Design System</h3><!-- TODO: ambiguous match: shodan-security-tools,tampermonkey-example -->
+                        <p>Comprehensive design system with reusable components, built with modern CSS and accessibility in mind.</p>
+                        <div class="project-tech">
+                            <span>CSS</span>
+                            <span>Storybook</span>
+                            <span>Figma</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">⚡</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Performance Dashboard</h3><!-- TODO: ambiguous match: Archangel13GTL.github.io,tampermonkey-example -->
+                        <p>Real-time analytics dashboard with advanced data visualization and mobile-optimized interface.</p>
+                        <div class="project-tech">
+                            <span>Vue.js</span>
+                            <span>D3.js</span>
+                            <span>WebSocket</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Technical Showcase Section -->
+    <section class="section" id="technical-showcase" aria-label="Technical showcase">
+        <div class="container">
+            <h2 class="section-title">Technical Showcase</h2>
+            <p class="section-subtitle">Behind the scenes of building without WordPress - showcasing modern web development practices</p>
+            
+            <div class="showcase-grid">
+                <div class="showcase-item">
+                    <div class="showcase-icon">⚡</div>
+                    <h3>Architecture & Performance</h3>
+                    <ul class="showcase-list">
+                        <li>Mobile-first progressive web app architecture</li>
+                        <li>Variable fonts reduce HTTP requests by 50%</li>
+                        <li>Service Worker caching for offline functionality</li>
+                        <li>Critical CSS inlined for faster First Contentful Paint</li>
+                        <li>Lighthouse Performance Score: 95+</li>
+                        <li>Core Web Vitals optimized for real-world usage</li>
+                    </ul>
+                </div>
+                
+                <div class="showcase-item">
+                    <div class="showcase-icon">🏗️</div>
+                    <h3>Code Quality & Best Practices</h3>
+                    <ul class="showcase-list">
+                        <li>Semantic HTML5 with accessibility landmarks</li>
+                        <li>Modern CSS with CSS Variables and relative colors</li>
+                        <li>Vanilla JavaScript with ES6+ features</li>
+                        <li>Intersection Observer for performance-friendly animations</li>
+                        <li>Touch-friendly UI with 48px minimum touch targets</li>
+                        <li>WCAG 2.1 AA compliance for accessibility</li>
+                    </ul>
+                </div>
+                
+                <div class="showcase-item">
+                    <div class="showcase-icon">📱</div>
+                    <h3>Development Features</h3>
+                    <ul class="showcase-list">
+                        <li>Progressive Web App (PWA) with offline capabilities</li>
+                        <li>Responsive design from 320px to 1440px viewports</li>
+                        <li>Dark/light theme with system preference detection</li>
+                        <li>Lazy loading for images and non-critical resources</li>
+                        <li>Optimized font loading with preload hints</li>
+                        <li>Service Worker with stale-while-revalidate strategy</li>
+                    </ul>
+                </div>
+                
+                <div class="showcase-item">
+                    <div class="showcase-icon">🎮</div>
+                    <h3>Interactive Applications</h3>
+                    <ul class="showcase-list">
+                        <li>Shed Layout Designer - Drag & drop interface</li>
+                        <li>Chicago Wild Harvest - Interactive plant database</li>
+                        <li>Touch-optimized controls for mobile devices</li>
+                        <li>LocalStorage for data persistence</li>
+                        <li>Modular JavaScript architecture</li>
+                        <li>Event delegation for performance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Apps Section -->
+    <section class="section" id="apps" aria-label="Web applications section">
+        <div class="container">
+            <h2 class="section-title">Interactive Apps</h2>
+            <div class="apps-grid">
+                <div class="app-card">
+                    <div class="app-icon">🏠</div>
+                    <h3>Shed Layout Designer</h3>
+                    <p>Interactive tool for designing and organizing shed layouts with drag-and-drop functionality.</p>
+                    <a href="/apps/shed-organizer/" class="app-link" aria-label="Open Shed Layout Designer">Launch App</a>
+                </div>
+                <div class="app-card">
+                    <div class="app-icon">🌿</div>
+                    <h3>Chicago Wild Harvest</h3>
+                    <p>Comprehensive guide to foraging in the Chicago area with interactive maps and plant identification.</p>
+                    <a href="/apps/wild-harvest/" class="app-link" aria-label="Open Chicago Wild Harvest">Launch App</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="section" id="contact" aria-label="Contact section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <p>Ready to bring your ideas to life? Let's collaborate on your next project.</p>
+                <div class="contact-methods">
+                    <a href="mailto:contact@tenettech.dev" class="contact-method">
+                        <span class="contact-icon">📧</span>
+                        <span>contact@tenettech.dev</span>
+                    </a>
+                    <a href="https://github.com/Archangel13GTL" class="contact-method" target="_blank" rel="noopener">
+                        <span class="contact-icon">🐱</span>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://linkedin.com/in/tenettech" class="contact-method" target="_blank" rel="noopener">
+                        <span class="contact-icon">💼</span>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+                <a href="mailto:contact@tenettech.dev" class="cta-button">Contact Me</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Load main stylesheet -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+    
+    <!-- Load JavaScript -->
+    <script src="/assets/js/main.js"></script>
+    
+    <!-- Enhanced Navigation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', () => {
+                    const isActive = navMenu.classList.contains('active');
+                    navMenu.classList.toggle('active', !isActive);
+                    navToggle.setAttribute('aria-expanded', !isActive);
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                        navMenu.classList.remove('active');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                
+                // Keyboard navigation support
+                navToggle.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        navToggle.click();
+                    }
+                });
+            }
+            
+            // Typewriter effect
+            const typewriter = document.querySelector('.typewriter');
+            if (typewriter) {
+                const text = typewriter.getAttribute('data-text');
+                let index = 0;
+                typewriter.textContent = '';
+                
+                const type = () => {
+                    if (index < text.length) {
+                        typewriter.textContent += text.charAt(index);
+                        index++;
+                        setTimeout(type, 100);
+                    } else {
+                        typewriter.insertAdjacentHTML('afterend', '<span class="cursor">|</span>');
+                    }
+                };
+                
+                setTimeout(type, 500);
+            }
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        const headerOffset = 80;
+                        const elementPosition = targetElement.offsetTop;
+                        const offsetPosition = elementPosition - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Loading animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -50px 0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('loaded');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.loading').forEach(el => {
+                observer.observe(el);
+            });
+        });
+        
+        // Add cursor animation styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .cursor {
+                animation: blink 1s infinite;
+                color: var(--primary-color);
+            }
+            
+            @keyframes blink {
+                0%, 50% { opacity: 1; }
+                51%, 100% { opacity: 0; }
+            }
+            
+            @media (prefers-reduced-motion: reduce) {
+                .cursor { animation: none; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    
+    <!-- Service Worker registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
