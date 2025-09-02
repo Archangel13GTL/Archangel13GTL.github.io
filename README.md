@@ -32,6 +32,11 @@ A modern, mobile-first portfolio website built with progressive web app capabili
 ├── manifest.json (PWA configuration)
 └── sw.js (service worker)
 
+## Recording Demos
+
+- Run `node scripts/generate-gif-demo.js --out=assets/demos/demo.gif` to capture a short animated preview using headless Chrome.
+- For higher quality recordings use OBS Studio or run the script in CI with headless Chrome and ffmpeg.
+
 ## Deployment
 
 1. Upload all files to your web server

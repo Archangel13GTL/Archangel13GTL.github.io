@@ -1,0 +1,23 @@
+<div class="code-demo">
+  <iframe src="" title="Interactive code demo" loading="lazy" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
+  <div class="code-demo__fallback hidden">
+    <pre><code class="language-js">// Example snippet
+console.log('Hello from demo');</code></pre>
+    <button class="run-sandbox">Run in sandbox</button>
+  </div>
+</div>
+<script>
+(function(){
+  const root = document.currentScript.previousElementSibling;
+  const frame = root.querySelector('iframe');
+  const fallback = root.querySelector('.code-demo__fallback');
+  frame.addEventListener('error', () => {
+    frame.classList.add('hidden');
+    fallback.classList.remove('hidden');
+  });
+  fallback.querySelector('.run-sandbox').addEventListener('click', () => {
+    const url = frame.getAttribute('src') || 'https://stackblitz.com/';
+    window.open(url, '_blank');
+  });
+})();
+</script>
