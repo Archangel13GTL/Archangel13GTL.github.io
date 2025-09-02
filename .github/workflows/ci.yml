@@ -10,16 +10,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        if: ${{ hashFiles('package.json') != '' }}
         with:
           node-version: 20
           cache: npm
       - name: Install dependencies
+        if: ${{ hashFiles('package.json') != '' }}
         run: npm ci
       - name: Run repo-scoring
+        if: ${{ hashFiles('package.json') != '' }}
         run: npx repo-scoring
       - name: Generate GIF demo
+        if: ${{ hashFiles('package.json') != '' }}
         run: node scripts/generate-gif-demo.js
       - name: Upload GIF artifact
+        if: ${{ hashFiles('package.json') != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: gif-demo
