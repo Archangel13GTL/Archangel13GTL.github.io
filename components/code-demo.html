@@ -12,8 +12,8 @@ console.log('Hello from demo');</code></pre>
   const frame = root.querySelector('iframe');
   const fallback = root.querySelector('.code-demo__fallback');
   frame.addEventListener('error', () => {
-    frame.style.display = 'none';
-    fallback.style.display = 'block';
+    frame.classList.add('hidden');
+    fallback.classList.remove('hidden');
   });
   fallback.querySelector('.run-sandbox').addEventListener('click', () => {
     const url = frame.getAttribute('src') || 'https://stackblitz.com/';
