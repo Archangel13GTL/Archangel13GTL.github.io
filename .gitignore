@@ -140,3 +140,9 @@ vite.config.ts.timestamp-*
 
 # Ignore temporary assets directory
 assets_to_add/
+
+# Build artifacts and generated files
+public/
+tenet-tech-portfolio/
+*.zip
+package-lock.json

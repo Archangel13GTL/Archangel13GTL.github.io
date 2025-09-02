@@ -1,1 +1,0 @@
-// CodeMirror JS mode placeholder
