@@ -41,5 +41,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public   # change if your build outputs to a different dir
+          publish_dir: .          # deploy from repository root
 
