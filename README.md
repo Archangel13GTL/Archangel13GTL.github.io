@@ -78,7 +78,7 @@ The site can be hosted on Firebase Hosting with optional Cloud Functions for the
    ```
 3. Set API keys for Cloud Functions (if used):
    ```bash
-   firebase functions:config:set openai.key="YOUR_OPENAI_KEY" anthropic.key="YOUR_ANTHROPIC_KEY" gemini.key="YOUR_GEMINI_KEY"
+firebase functions:config:set openai.key="$OPENAI_API_KEY" anthropic.key="$ANTHROPIC_API_KEY" gemini.key="$GEMINI_API_KEY"
    ```
 4. Deploy to Firebase:
    ```bash
