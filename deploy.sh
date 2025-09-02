@@ -7,4 +7,4 @@ npm run build || {
   cp -r index.html assets manifest.json sw.js public/
 }
 
-firebase deploy --only hosting,functions
+firebase deploy --only hosting
