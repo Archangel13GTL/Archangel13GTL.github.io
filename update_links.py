@@ -11,8 +11,12 @@ MATCH_THRESHOLD = 0.8
 
 
 def load_repos():
-    with REPO_FILE.open() as f:
-        return json.load(f)
+    try:
+        with REPO_FILE.open() as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("Warning: repository data file not found", flush=True)
+        return []
 
 
 def normalize(s: str) -> str:
@@ -32,6 +36,10 @@ def best_scores(title: str, repo_names: list[str]):
 
 def main():
     repo_names = load_repos()
+    if not repo_names:
+        print("No repository data found. Exiting.", flush=True)
+        return
+
     index_path = Path('index.html')
     soup = BeautifulSoup(index_path.read_text(encoding='utf-8'), 'html.parser')
     section = soup.find('section', id='projects')
