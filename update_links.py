@@ -1,4 +1,6 @@
+import argparse
 import json
+import os
 import re
 from difflib import SequenceMatcher
 from pathlib import Path
@@ -7,7 +9,7 @@ from bs4 import BeautifulSoup, Comment
 
 REPO_FILE = Path('data/repos.json')
 GITHUB_USER = 'Archangel13GTL'
-MATCH_THRESHOLD = 0.8
+MATCH_THRESHOLD = float(os.getenv('MATCH_THRESHOLD', '0.8'))
 
 
 def load_repos():
@@ -34,7 +36,8 @@ def best_scores(title: str, repo_names: list[str]):
     return scores[:2]
 
 
-def main():
+def main(match_threshold: float | None = None):
+    threshold = match_threshold if match_threshold is not None else MATCH_THRESHOLD
     repo_names = load_repos()
     if not repo_names:
         print("No repository data found. Exiting.", flush=True)
@@ -53,7 +56,7 @@ def main():
         title = h3.get_text(strip=True)
         if not link or not link.get('href'):
             match, scores = None, best_scores(title, repo_names)
-            if scores and scores[0][0] >= 0.8:
+            if scores and scores[0][0] >= threshold:
                 match = scores[0][1]
             if match:
                 h3.string = ''
@@ -69,7 +72,7 @@ def main():
                 r = requests.head(href, allow_redirects=True, timeout=5)
                 if r.status_code == 404:
                     match, scores = None, best_scores(title, repo_names)
-                    if scores and scores[0][0] >= 0.8:
+                    if scores and scores[0][0] >= threshold:
                         match = scores[0][1]
                         link['href'] = f'https://github.com/{GITHUB_USER}/{match}'
                     else:
@@ -81,4 +84,8 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(description='Update project links in index.html')
+    parser.add_argument('--match-threshold', type=float, default=None,
+                        help='Minimum score for matching project titles to repositories')
+    args = parser.parse_args()
+    main(args.match_threshold)
