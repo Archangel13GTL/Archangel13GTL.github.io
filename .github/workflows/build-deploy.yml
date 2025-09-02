@@ -13,11 +13,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node
+        if: ${{ hashFiles('package.json') != '' }}
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
       - name: Install dependencies (ci if lockfile exists, else install)
+        if: ${{ hashFiles('package.json') != '' }}
         run: |
           if [ -f ./package-lock.json ] || [ -f ./npm-shrinkwrap.json ] || [ -f ./yarn.lock ]; then
             echo "Lockfile found — running npm ci"
@@ -28,6 +30,7 @@ jobs:
           fi
 
       - name: Build (only if npm run build exists)
+        if: ${{ hashFiles('package.json') != '' }}
         run: |
           if grep -q '"build"' package.json; then
             npm run build
