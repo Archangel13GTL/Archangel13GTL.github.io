@@ -12,8 +12,10 @@ import zipfile
 import json
 import time
 
-# Setup logging
-logging.basicConfig(level=logging.INFO, format='[%(asctime)s] [%(levelname)s] %(message)s')
+
+def configure_logging(level=logging.INFO):
+    """Configure basic logging for scripts in this module."""
+    logging.basicConfig(level=level, format='[%(asctime)s] [%(levelname)s] %(message)s')
 
 # --- CONFIGURATION ---
 
@@ -236,6 +238,8 @@ def git_commit_changes(files, message, branch):
         logging.error(f"[Error] Git operation failed: {e}")
 
 def main(dry_run=False, git_commit=False, undo=False, branch=GIT_BRANCH):
+    if not logging.getLogger().hasHandlers():
+        configure_logging()
     ensure_snippets()  # Auto-generate missing snippet files
     if undo:
         for file in HTML_FILES + OTHER_FILES:
@@ -287,6 +291,7 @@ def main(dry_run=False, git_commit=False, undo=False, branch=GIT_BRANCH):
     logging.info("\n✅ All updates applied. Review changes and redeploy.")
 
 if __name__ == "__main__":
+    configure_logging()
     parser = argparse.ArgumentParser(description="Auto-update TeNeT X portfolio site")
     parser.add_argument('--dry-run', action='store_true', help='Preview changes without writing files')
     parser.add_argument('--git-commit', action='store_true', help='Commit changes to git after update')

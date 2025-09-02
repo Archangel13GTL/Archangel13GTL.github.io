@@ -8,8 +8,10 @@ from html.parser import HTMLParser
 import argparse
 from bs4 import BeautifulSoup  # pip install beautifulsoup4 lxml
 
-# Setup logging
-logging.basicConfig(level=logging.INFO, format='[%(asctime)s] [%(levelname)s] %(message)s')
+
+def configure_logging(level=logging.INFO):
+    """Configure basic logging for scripts in this module."""
+    logging.basicConfig(level=level, format='[%(asctime)s] [%(levelname)s] %(message)s')
 
 # --- CONFIGURATION ---
 SECTION_SNIPPETS = {
@@ -293,6 +295,8 @@ def git_commit_changes(files, message, branch):
         print(f"[Error] Git commit failed: {e}")
 
 def main(dry_run=False, git_commit=False, undo=False, branch=GIT_BRANCH):
+    if not logging.getLogger().hasHandlers():
+        configure_logging()
     ensure_snippets()
     if undo:
         for file in HTML_FILES + OTHER_FILES:
@@ -337,6 +341,7 @@ def main(dry_run=False, git_commit=False, undo=False, branch=GIT_BRANCH):
     print("Done.")
 
 if __name__ == "__main__":
+    configure_logging()
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--git-commit", action="store_true")
