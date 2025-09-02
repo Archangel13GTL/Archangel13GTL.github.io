@@ -34,7 +34,7 @@ A modern, mobile-first portfolio website built with progressive web app capabili
 
 ## Recording Demos
 
-- Run `node scripts/generate-gif-demo.js --out=assets/demos/demo.gif` to capture a short animated preview using headless Chrome.
+- Run `node scripts/generate-gif-demo.js` to capture a short animated preview using headless Chrome. Use `--out=<path>` to save to a custom location.
 - For higher quality recordings use OBS Studio or run the script in CI with headless Chrome and ffmpeg.
 
 ## Deployment

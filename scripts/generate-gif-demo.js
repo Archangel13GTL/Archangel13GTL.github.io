@@ -6,7 +6,7 @@ const puppeteer = require('puppeteer');
 const { PuppeteerScreenRecorder } = require('puppeteer-screen-recorder');
 
 async function main() {
-  const outArg = process.argv.find(a => a.startsWith('--out=')) || '--out=assets/demos/demo.gif';
+  const outArg = process.argv.find(a => a.startsWith('--out=')) || '--out=demo.gif';
   const outGif = outArg.split('=')[1];
   const outMp4 = outGif.replace(/\.gif$/i, '.mp4');
   const outDir = path.dirname(outGif);
