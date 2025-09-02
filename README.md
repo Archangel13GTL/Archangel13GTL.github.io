@@ -50,3 +50,37 @@ A modern, mobile-first portfolio website built with progressive web app capabili
 ## License
 
 MIT License - feel free to use and modify
+
+## Environment Setup
+
+Configure API provider keys as environment variables before running the backend that powers `/api/ai`:
+
+```bash
+export OPENAI_API_KEY="your-openai-key"
+export ANTHROPIC_API_KEY="your-anthropic-key"
+export GEMINI_API_KEY="your-gemini-key"
+```
+
+These variables can also be placed in a `.env` file or set using your deployment platform's secret manager.
+
+## Firebase Deployment
+
+The site can be hosted on Firebase Hosting with optional Cloud Functions for the AI API.
+
+1. Install the Firebase CLI:
+   ```bash
+   npm install -g firebase-tools
+   ```
+2. Authenticate and initialize the project:
+   ```bash
+   firebase login
+   firebase init
+   ```
+3. Set API keys for Cloud Functions (if used):
+   ```bash
+   firebase functions:config:set openai.key="YOUR_OPENAI_KEY" anthropic.key="YOUR_ANTHROPIC_KEY" gemini.key="YOUR_GEMINI_KEY"
+   ```
+4. Deploy to Firebase:
+   ```bash
+   firebase deploy
+   ```
