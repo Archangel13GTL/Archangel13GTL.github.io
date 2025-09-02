@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 usage() {
-  echo "Usage: $0 --pick <repo>" >&2
-  exit 1
+  echo "Usage: source $0 --pick <repo>" >&2
+  return 1
 }
 
 if [[ "$1" != "--pick" || -z "$2" ]]; then
