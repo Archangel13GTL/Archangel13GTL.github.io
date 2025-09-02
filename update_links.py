@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup, Comment
 
 REPO_FILE = Path('data/repos.json')
 GITHUB_USER = 'Archangel13GTL'
+MATCH_THRESHOLD = 0.8
 
 
 def load_repos():
