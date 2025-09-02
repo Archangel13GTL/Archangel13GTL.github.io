@@ -11,4 +11,11 @@ fi
 
 export CHOSEN_REPO="$2"
 
+REPO_DIR="workspace/$2"
+if [[ ! -d "$REPO_DIR" ]]; then
+  echo "Error: Repository directory '$REPO_DIR' not found." >&2
+  return 1
+fi
+
+cd "$REPO_DIR" || return
 git checkout update-links-and-ai
