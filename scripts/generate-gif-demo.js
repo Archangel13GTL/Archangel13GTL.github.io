@@ -19,7 +19,7 @@ async function main() {
 
   // Scroll the page
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-  await page.waitForTimeout(500);
+  await new Promise(r => setTimeout(r, 500));
 
   // Open demo panel if available
   const demoButton = await page.$('.code-demo .run-sandbox');
