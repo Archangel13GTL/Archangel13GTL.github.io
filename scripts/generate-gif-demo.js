@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
-const { execFileSync } = require('child_process');
+const { execSync } = require('child_process');
 const puppeteer = require('puppeteer');
 const { PuppeteerScreenRecorder } = require('puppeteer-screen-recorder');
 
@@ -36,9 +36,10 @@ async function main() {
   await browser.close();
 
   try {
-    execFileSync('ffmpeg', ['-y', '-i', outMp4, outGif], { stdio: 'inherit' });
+    execSync(`ffmpeg -y -i "${outMp4}" "${outGif}"`, { stdio: 'inherit' });
   } catch (err) {
     console.error('ffmpeg conversion failed:', err.message);
+    process.exit(1);
   }
 }
 
