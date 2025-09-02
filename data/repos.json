@@ -1,4 +1,14 @@
 [
+codex/parse-project-cards-and-update-links
+  "Archangel13GTL.github.io",
+  "NiceThumbsBuddy-AutoindexGallery",
+  "shodan-security-tools",
+  "skills-introduction-to-github",
+  "StorageOrganizer",
+  "tampermonkey-example",
+  "teaching-helper-rubric",
+  "tenetnex-professional"
+]
   {
     "id": 1017688385,
     "node_id": "R_kgDOPKixQQ",
@@ -844,3 +854,4 @@
     "default_branch": "main"
   }
 ]
+main
