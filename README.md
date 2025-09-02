@@ -58,6 +58,8 @@ MIT License - feel free to use and modify
 
 ## Environment Setup
 
+Ensure [Node.js](https://nodejs.org/) **18 or newer** is installed; the backend checks the runtime version at startup and exits if the requirement is not met.
+
 Configure API provider keys as environment variables before running the backend that powers `/api/ai`:
 
 ```bash
